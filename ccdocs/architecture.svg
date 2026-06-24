@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1640 2000" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0f172a"/><stop offset="1" stop-color="#1e293b"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+    <marker id="arrowInject" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#f59e0b"/>
+    </marker>
+    <style>
+      .layer{rx:14;ry:14;opacity:.96}
+      .layerLabel{fill:#f8fafc;font-size:19px;font-weight:700}
+      .layerTag{fill:#cbd5e1;font-size:12px;font-weight:600}
+      .box{rx:9;ry:9;stroke-width:1.5}
+      .boxT{fill:#0f172a;font-size:13.5px;font-weight:700}
+      .boxS{fill:#334155;font-size:10.5px}
+      .p0{fill:#fecaca;stroke:#dc2626}
+      .p1{fill:#fed7aa;stroke:#ea580c}
+      .p2{fill:#fde68a;stroke:#ca8a04}
+      .p3{fill:#bbf7d0;stroke:#16a34a}
+      .flow{stroke:#94a3b8;stroke-width:2;fill:none;marker-end:url(#arrow)}
+      .inject{stroke:#f59e0b;stroke-width:2.2;fill:none;marker-end:url(#arrowInject);stroke-dasharray:6 4}
+      .title{fill:#f8fafc;font-size:30px;font-weight:800}
+      .sub{fill:#94a3b8;font-size:14px}
+      .legend{fill:#e2e8f0;font-size:12.5px}
+    </style>
+  </defs>
+
+  <rect width="1640" height="2000" fill="url(#bgGrad)"/>
+  <text x="40" y="50" class="title">OpenClaw 完整分层架构</text>
+  <text x="40" y="76" class="sub">个人 AI 助理运行时 · ~59万行 TS · 分层 + 层级调用 + 子系统 · 实线=调用/数据流，橙色虚线=依赖注入(DIP)</text>
+
+  <!-- Legend -->
+  <g transform="translate(1130,28)">
+    <rect x="0" y="0" width="22" height="14" class="p0" rx="3"/><text x="28" y="11" class="legend">P0 骨架</text>
+    <rect x="110" y="0" width="22" height="14" class="p1" rx="3"/><text x="138" y="11" class="legend">P1 核心</text>
+    <rect x="220" y="0" width="22" height="14" class="p2" rx="3"/><text x="248" y="11" class="legend">P2 支撑</text>
+    <rect x="330" y="0" width="22" height="14" class="p3" rx="3"/><text x="358" y="11" class="legend">P3 可选</text>
+    <line x1="0" y1="30" x2="40" y2="30" class="flow"/><text x="48" y="34" class="legend">调用/数据流</text>
+    <line x1="180" y1="30" x2="220" y2="30" class="inject"/><text x="228" y="34" class="legend">依赖注入</text>
+  </g>
+
+  <!-- ===== LAYER 1: 接入层 ===== -->
+  <rect x="40" y="100" width="1560" height="150" class="layer" fill="#1d4ed8"/>
+  <text x="60" y="128" class="layerLabel">① 接入层 / Clients</text>
+  <text x="60" y="146" class="layerTag">多形态接入面 · transport-only</text>
+  <g>
+    <rect x="60" y="158" width="200" height="78" class="box p1"/><text x="72" y="180" class="boxT">CLI</text><text x="72" y="198" class="boxS">src/cli + src/commands</text><text x="72" y="213" class="boxS">onboard/doctor/configure</text><text x="72" y="228" class="boxS">Commander · 60K+87K LOC</text>
+    <rect x="280" y="158" width="200" height="78" class="box p1"/><text x="292" y="180" class="boxT">23+ 消息渠道</text><text x="292" y="198" class="boxS">extensions/&lt;channel&gt; ×25</text><text x="292" y="213" class="boxS">Telegram/Discord/Slack</text><text x="292" y="228" class="boxS">WhatsApp/iMessage/微信</text>
+    <rect x="500" y="158" width="200" height="78" class="box p3"/><text x="512" y="180" class="boxT">Web Control UI</text><text x="512" y="198" class="boxS">ui/ (Lit 3 + Vite)</text><text x="512" y="213" class="boxS">会话/日志/渠道配置</text><text x="512" y="228" class="boxS">Canvas 沙箱 iframe</text>
+    <rect x="720" y="158" width="200" height="78" class="box p3"/><text x="732" y="180" class="boxT">伴侣 App</text><text x="732" y="198" class="boxS">apps/ (Swift/Kotlin/WinUI)</text><text x="732" y="213" class="boxS">macOS/iOS/Android/Win</text><text x="732" y="228" class="boxS">node 客户端/可托管GW</text>
+    <rect x="940" y="158" width="200" height="78" class="box p3"/><text x="952" y="180" class="boxT">SDK</text><text x="952" y="198" class="boxS">packages/sdk</text><text x="952" y="213" class="boxS">+ gateway-client</text><text x="952" y="228" class="boxS">编程式客户端</text>
+    <rect x="1160" y="158" width="200" height="78" class="box p3"/><text x="1172" y="180" class="boxT">Node Host</text><text x="1172" y="198" class="boxS">src/node-host</text><text x="1172" y="213" class="boxS">跨设备命令执行</text><text x="1172" y="228" class="boxS">exec 审批/allowlist</text>
+    <rect x="1380" y="158" width="200" height="78" class="box p3"/><text x="1392" y="180" class="boxT">守护进程</text><text x="1392" y="198" class="boxS">src/daemon</text><text x="1392" y="213" class="boxS">launchd/systemd</text><text x="1392" y="228" class="boxS">schtasks 服务管理</text>
+  </g>
+
+  <!-- ===== LAYER 2: 控制平面 ===== -->
+  <rect x="40" y="290" width="1560" height="150" class="layer" fill="#0e7490"/>
+  <text x="60" y="318" class="layerLabel">② 控制平面 / Gateway (P0)</text>
+  <text x="60" y="336" class="layerTag">"product is the assistant; gateway is just the control plane" · src/gateway 114K LOC</text>
+  <g>
+    <rect x="60" y="348" width="230" height="78" class="box p0"/><text x="72" y="370" class="boxT">WS Server</text><text x="72" y="388" class="boxS">server/ws-connection.ts</text><text x="72" y="403" class="boxS">握手/连接生命周期</text><text x="72" y="418" class="boxS">preauth 预算/超时</text>
+    <rect x="310" y="348" width="230" height="78" class="box p0"/><text x="322" y="370" class="boxT">协议 Protocol v4</text><text x="322" y="388" class="boxS">packages/gateway-protocol</text><text x="322" y="403" class="boxS">TypeBox schema 帧</text><text x="322" y="418" class="boxS">惰性编译 + 版本协商</text>
+    <rect x="560" y="348" width="230" height="78" class="box p0"/><text x="572" y="370" class="boxT">认证/Scope/限流</text><text x="572" y="388" class="boxS">auth*.ts / auth-rate-limit</text><text x="572" y="403" class="boxS">device-token/password</text><text x="572" y="418" class="boxS">method-scopes</text>
+    <rect x="810" y="348" width="230" height="78" class="box p0"/><text x="822" y="370" class="boxT">方法注册表+Handler</text><text x="822" y="388" class="boxS">methods/registry (O(1))</text><text x="822" y="403" class="boxS">server-methods/chat,agent</text><text x="822" y="418" class="boxS">channels/artifacts</text>
+    <rect x="1060" y="348" width="230" height="78" class="box p1"/><text x="1072" y="370" class="boxT">配置热重载/节点</text><text x="1072" y="388" class="boxS">config-reload / node-registry</text><text x="1072" y="403" class="boxS">channel-health-monitor</text><text x="1072" y="418" class="boxS">chat-abort (取消)</text>
+    <rect x="1310" y="348" width="270" height="78" class="box p2"/><text x="1322" y="370" class="boxT">调度器 cron</text><text x="1322" y="388" class="boxS">src/cron (SQLite, 19K)</text><text x="1322" y="403" class="boxS">单timer串行/避整点</text><text x="1322" y="418" class="boxS">checkpoint 快照</text>
+  </g>
+
+  <!-- ===== LAYER 3: 路由层 ===== -->
+  <rect x="40" y="480" width="1560" height="128" class="layer" fill="#7c3aed"/>
+  <text x="60" y="508" class="layerLabel">③ 路由 / 入站分发 (P1/P2)</text>
+  <text x="60" y="526" class="layerTag">入站消息 → 门控 → 去抖 → 路由 → 分发 · src/auto-reply 71K + src/routing</text>
+  <g>
+    <rect x="60" y="538" width="290" height="58" class="box p1"/><text x="72" y="560" class="boxT">入站事件归一化/分类</text><text x="72" y="578" class="boxS">channels/inbound-event · user_request vs room_event</text>
+    <rect x="370" y="538" width="290" height="58" class="box p1"/><text x="382" y="560" class="boxT">门控 + 去抖</text><text x="382" y="578" class="boxS">mention/command/allowlist · inbound-debounce</text>
+    <rect x="680" y="538" width="290" height="58" class="box p2"/><text x="692" y="560" class="boxT">路由 routing</text><text x="692" y="578" class="boxS">resolve-route → agentId+sessionKey · bindings</text>
+    <rect x="990" y="538" width="290" height="58" class="box p1"/><text x="1002" y="560" class="boxT">分发 dispatch</text><text x="1002" y="578" class="boxS">auto-reply/dispatch → dispatchReplyFromConfig</text>
+    <rect x="1300" y="538" width="280" height="58" class="box p1"/><text x="1312" y="560" class="boxT">回复投递</text><text x="1312" y="578" class="boxS">channels/turn/kernel → dispatcher.deliver</text>
+  </g>
+
+  <!-- ===== LAYER 4: Agent 运行时 ===== -->
+  <rect x="40" y="648" width="1560" height="158" class="layer" fill="#b91c1c"/>
+  <text x="60" y="676" class="layerLabel">④ Agent 运行时 (P0)</text>
+  <text x="60" y="694" class="layerTag">真正干活的层 · src/agents 278K LOC (最大模块)</text>
+  <g>
+    <rect x="60" y="706" width="290" height="88" class="box p0"/><text x="72" y="728" class="boxT">Embedded Runner</text><text x="72" y="746" class="boxS">embedded-agent-runner/run.ts</text><text x="72" y="761" class="boxS">跨attempt: 重试/压缩/失败转移</text><text x="72" y="776" class="boxS">auth轮换/idle断路器(4191行)</text><text x="72" y="791" class="boxS">run/attempt.ts 单次尝试(5804行)</text>
+    <rect x="370" y="706" width="270" height="88" class="box p0"/><text x="382" y="728" class="boxT">AgentSession</text><text x="382" y="746" class="boxS">sessions/agent-session.ts</text><text x="382" y="761" class="boxS">持久化/写锁/压缩</text><text x="382" y="776" class="boxS">beforeToolCall/afterToolCall钩子</text><text x="382" y="791" class="boxS">持有 CoreAgent 实例</text>
+    <rect x="660" y="706" width="250" height="88" class="box p1"/><text x="672" y="728" class="boxT">可插拔 Harness</text><text x="672" y="746" class="boxS">harness/selection.ts</text><text x="672" y="761" class="boxS">builtin-openclaw | codex</text><text x="672" y="776" class="boxS">context-engine-lifecycle</text><text x="672" y="791" class="boxS">执行后端可替换</text>
+    <rect x="930" y="706" width="250" height="88" class="box p1"/><text x="942" y="728" class="boxT">系统提示装配</text><text x="942" y="746" class="boxS">system-prompt.ts</text><text x="942" y="761" class="boxS">缓存稳定前缀+动态后缀</text><text x="942" y="776" class="boxS">技能/记忆/环境注入</text><text x="942" y="791" class="boxS">prompt cache 优化</text>
+    <rect x="1200" y="706" width="380" height="88" class="box p2"/><text x="1212" y="728" class="boxT">子代理 / 多Agent</text><text x="1212" y="746" class="boxS">subagent-spawn / acp-spawn / subagent-registry(SQLite)</text><text x="1212" y="761" class="boxS">sessions_spawn (depth=1, ≤5子/8并发)</text><text x="1212" y="776" class="boxS">A2A: sessions_send 有界ping-pong</text><text x="1212" y="791" class="boxS">heartbeat 唤醒 / 完成 announce</text>
+  </g>
+
+  <!-- ===== LAYER 5: 循环引擎 ===== -->
+  <rect x="40" y="846" width="1560" height="138" class="layer" fill="#be123c"/>
+  <text x="60" y="874" class="layerLabel">⑤ 循环引擎 / @openclaw/agent-core (P0)</text>
+  <text x="60" y="892" class="layerTag">provider-agnostic ReAct 循环 · packages/agent-core 8K LOC · 可独立复用</text>
+  <g>
+    <rect x="60" y="904" width="300" height="68" class="box p0"/><text x="72" y="926" class="boxT">runLoop (ReAct 引擎)</text><text x="72" y="944" class="boxS">agent-loop.ts: stream→tool→回灌→判停</text><text x="72" y="960" class="boxS">steering/follow-up 队列 · 并行/串行工具</text>
+    <rect x="380" y="904" width="280" height="68" class="box p0"/><text x="392" y="926" class="boxT">Agent (状态机)</text><text x="392" y="944" class="boxS">agent.ts: 转写+2队列+事件</text><text x="392" y="960" class="boxS">lifecycle + abort</text>
+    <rect x="680" y="904" width="300" height="68" class="box p0"/><text x="692" y="926" class="boxT">CoreAgentHarness</text><text x="692" y="944" class="boxS">harness/agent-harness.ts</text><text x="692" y="960" class="boxS">会话树+压缩+分支+17钩子+phase</text>
+    <rect x="1000" y="904" width="280" height="68" class="box p0"/><text x="1012" y="926" class="boxT">Session 会话树</text><text x="1012" y="944" class="boxS">append-only + parentId 树</text><text x="1012" y="960" class="boxS">leaf指针 · 分支导航 · 压缩重放</text>
+    <rect x="1300" y="904" width="280" height="68" class="box p0"/><text x="1312" y="926" class="boxT">压缩 / 分支摘要</text><text x="1312" y="944" class="boxS">compaction: 切点/token/摘要</text><text x="1312" y="960" class="boxS">reserve=16384 keep=20000</text>
+  </g>
+
+  <!-- ===== LAYER 6: 模型层 + 工具层 (并列) ===== -->
+  <rect x="40" y="1024" width="760" height="180" class="layer" fill="#9a3412"/>
+  <text x="60" y="1052" class="layerLabel">⑥A 模型层 / LLM (P0)</text>
+  <text x="60" y="1070" class="layerTag">按 model.api 分发 · 注入到循环引擎</text>
+  <g>
+    <rect x="60" y="1082" width="230" height="54" class="box p0"/><text x="72" y="1104" class="boxT">llm-runtime</text><text x="72" y="1122" class="boxS">stream.ts api-id 分发</text>
+    <rect x="310" y="1082" width="230" height="54" class="box p0"/><text x="322" y="1104" class="boxT">llm-core</text><text x="322" y="1122" class="boxS">Message/Model/EventStream</text>
+    <rect x="560" y="1082" width="220" height="54" class="box p2"/><text x="572" y="1104" class="boxT">tool-call-repair</text><text x="572" y="1122" class="boxS">修复文本泄漏工具调用</text>
+    <rect x="60" y="1146" width="350" height="48" class="box p0"/><text x="72" y="1168" class="boxT">8 内置 API 家族 adapter</text><text x="72" y="1184" class="boxS">src/llm/providers: anthropic/openai-*/google-*</text>
+    <rect x="430" y="1146" width="350" height="48" class="box p3"/><text x="442" y="1168" class="boxT">70 provider 扩展</text><text x="442" y="1184" class="boxS">extensions/&lt;provider&gt;: auth + model catalog</text>
+  </g>
+
+  <rect x="820" y="1024" width="780" height="180" class="layer" fill="#854d0e"/>
+  <text x="840" y="1052" class="layerLabel">⑥B 工具层 / Tool·MCP·Skill (P0/P2)</text>
+  <text x="840" y="1070" class="layerTag">70 内置工具 + MCP双向 + 52技能 · 策略管线</text>
+  <g>
+    <rect x="840" y="1082" width="240" height="54" class="box p0"/><text x="852" y="1104" class="boxT">70 内置工具</text><text x="852" y="1122" class="boxS">agents/tools: read/exec/edit...</text>
+    <rect x="1100" y="1082" width="230" height="54" class="box p2"/><text x="1112" y="1104" class="boxT">MCP 双向</text><text x="1112" y="1122" class="boxS">src/mcp + bundle-mcp</text>
+    <rect x="1350" y="1082" width="230" height="54" class="box p2"/><text x="1362" y="1104" class="boxT">技能 Skill</text><text x="1362" y="1122" class="boxS">src/skills: SKILL.md 按需读</text>
+    <rect x="840" y="1146" width="360" height="48" class="box p1"/><text x="852" y="1168" class="boxT">工具策略管线</text><text x="852" y="1184" class="boxS">allow/deny/sandbox/subagent/inherited</text>
+    <rect x="1220" y="1146" width="360" height="48" class="box p2"/><text x="1232" y="1168" class="boxT">沙箱 + 权限 + 审批</text><text x="1232" y="1184" class="boxS">resolveSandboxRuntimeStatus · 审批中继</text>
+  </g>
+
+  <!-- ===== LAYER 7: 支撑层 ===== -->
+  <rect x="40" y="1244" width="1560" height="150" class="layer" fill="#15803d"/>
+  <text x="60" y="1272" class="layerLabel">⑦ 支撑层 (P1/P2)</text>
+  <text x="60" y="1290" class="layerTag">配置 · 凭证 · 上下文引擎 · 记忆 · 模型目录</text>
+  <g>
+    <rect x="60" y="1302" width="250" height="78" class="box p1"/><text x="72" y="1324" class="boxT">配置系统</text><text x="72" y="1342" class="boxS">src/config 55K LOC</text><text x="72" y="1357" class="boxS">canonical-only schema/校验</text><text x="72" y="1372" class="boxS">doctor 迁移契约</text>
+    <rect x="330" y="1302" width="240" height="78" class="box p2"/><text x="342" y="1324" class="boxT">凭证/密钥</text><text x="342" y="1342" class="boxS">src/secrets 14K</text><text x="342" y="1357" class="boxS">~/.openclaw/credentials</text><text x="342" y="1372" class="boxS">本地优先</text>
+    <rect x="590" y="1302" width="250" height="78" class="box p2"/><text x="602" y="1324" class="boxT">上下文引擎</text><text x="602" y="1342" class="boxS">src/context-engine</text><text x="602" y="1357" class="boxS">可插拔+注册表</text><text x="602" y="1372" class="boxS">quarantine容错+legacy兜底</text>
+    <rect x="860" y="1302" width="320" height="78" class="box p1"/><text x="872" y="1324" class="boxT">记忆系统 (单插件槽)</text><text x="872" y="1342" class="boxS">memory-host-sdk 8.5K + extensions</text><text x="872" y="1357" class="boxS">短/工作/长期 · FTS5+sqlite-vec混合</text><text x="872" y="1372" class="boxS">dreaming promotion · embedding</text>
+    <rect x="1200" y="1302" width="380" height="78" class="box p2"/><text x="1212" y="1324" class="boxT">模型目录 + ACP</text><text x="1212" y="1342" class="boxS">model-catalog: 合并权威(config&gt;manifest&gt;cache&gt;index)</text><text x="1212" y="1357" class="boxS">src/acp + acp-core: 驱动外部agent后端(Codex)</text><text x="1212" y="1372" class="boxS">AcpSessionManager · 每会话串行</text>
+  </g>
+
+  <!-- ===== LAYER 8: 基础设施 ===== -->
+  <rect x="40" y="1434" width="1560" height="128" class="layer" fill="#0f766e"/>
+  <text x="60" y="1462" class="layerLabel">⑧ 基础设施 (P1/P3)</text>
+  <text x="60" y="1480" class="layerTag">SQLite持久化 · 事件 · 网络策略 · src/infra 95K LOC</text>
+  <g>
+    <rect x="60" y="1492" width="300" height="58" class="box p1"/><text x="72" y="1514" class="boxT">SQLite 状态存储</text><text x="72" y="1532" class="boxS">infra: Kysely + node:sqlite · 共享库+每Agent库</text>
+    <rect x="380" y="1492" width="300" height="58" class="box p1"/><text x="392" y="1514" class="boxT">事件/唤醒/迁移</text><text x="392" y="1532" class="boxS">system-events · heartbeat-wake · state-migrations</text>
+    <rect x="700" y="1492" width="280" height="58" class="box p3"/><text x="712" y="1514" class="boxT">网络策略</text><text x="712" y="1532" class="boxS">packages/net-policy · SSRF 防护</text>
+    <rect x="1000" y="1492" width="280" height="58" class="box p3"/><text x="1012" y="1514" class="boxT">终端渲染</text><text x="1012" y="1532" class="boxS">terminal-core · ANSI/表格/进度</text>
+    <rect x="1300" y="1492" width="280" height="58" class="box p3"/><text x="1312" y="1514" class="boxT">媒体/语音</text><text x="1312" y="1532" class="boxS">media-core/speech-core 契约</text>
+  </g>
+
+  <!-- ===== LAYER 9: 插件系统 ===== -->
+  <rect x="40" y="1592" width="1560" height="128" class="layer" fill="#4338ca"/>
+  <text x="60" y="1620" class="layerLabel">⑨ 插件系统 / Plugins (P0 加载器 / P3 扩展)</text>
+  <text x="60" y="1638" class="layerTag">manifest-first · 零运行时导入激活规划 · src/plugins 93K + extensions 180K</text>
+  <g>
+    <rect x="60" y="1650" width="340" height="58" class="box p0"/><text x="72" y="1672" class="boxT">插件加载器</text><text x="72" y="1690" class="boxS">loader/manifest/activation-planner/config-activation</text>
+    <rect x="420" y="1650" width="280" height="58" class="box p0"/><text x="432" y="1672" class="boxT">注册表 API</text><text x="432" y="1690" class="boxS">registry: OpenClawPluginApi ~60 register</text>
+    <rect x="720" y="1650" width="260" height="58" class="box p0"/><text x="732" y="1672" class="boxT">单槽 slots</text><text x="732" y="1690" class="boxS">memory / context-engine 单槽</text>
+    <rect x="1000" y="1650" width="580" height="58" class="box p3"/><text x="1012" y="1672" class="boxT">extensions × 139</text><text x="1012" y="1690" class="boxS">70 provider + 25 channel + 2 memory + 38 其他 (browser/codex/acpx...)</text>
+  </g>
+
+  <!-- ===== LAYER 10: 外部依赖 ===== -->
+  <rect x="40" y="1750" width="1560" height="96" class="layer" fill="#334155"/>
+  <text x="60" y="1778" class="layerLabel">⑩ 外部依赖 (向下依赖，非本项目拥有)</text>
+  <g>
+    <rect x="60" y="1790" width="360" height="44" class="box p3"/><text x="72" y="1817" class="boxT">LLM Provider (算力): Anthropic/OpenAI/Google ×70</text>
+    <rect x="440" y="1790" width="320" height="44" class="box p3"/><text x="452" y="1817" class="boxT">Node ≥22.19 + 原生扩展(sqlite-vec/llama)</text>
+    <rect x="780" y="1790" width="300" height="44" class="box p3"/><text x="792" y="1817" class="boxT">操作系统 (FS/进程/网络)</text>
+    <rect x="1100" y="1790" width="300" height="44" class="box p3"/><text x="1112" y="1817" class="boxT">Container/K8S (可选部署)</text>
+    <rect x="1420" y="1790" width="160" height="44" class="box p3"/><text x="1432" y="1817" class="boxT">IM 平台 API</text>
+  </g>
+
+  <!-- ===== 层间调用箭头（主干）===== -->
+  <path class="flow" d="M 820 250 L 820 290"/>
+  <path class="flow" d="M 820 440 L 820 480"/>
+  <path class="flow" d="M 820 608 L 820 648"/>
+  <path class="flow" d="M 500 806 L 500 846"/>
+  <path class="flow" d="M 520 984 L 430 1024"/>
+  <path class="flow" d="M 920 984 L 1010 1024"/>
+  <path class="inject" d="M 300 1082 L 360 990"/>
+  <text x="200" y="1045" fill="#fbbf24" font-size="11.5" font-weight="700">streamSimple/completeSimple 注入(DIP)</text>
+  <path class="flow" d="M 820 1204 L 820 1244"/>
+  <path class="flow" d="M 820 1394 L 820 1434"/>
+  <path class="flow" d="M 820 1562 L 820 1592"/>
+  <path class="flow" d="M 820 1720 L 820 1750"/>
+
+  <!-- 侧向：cron→Agent, 路由→Agent 已含主干; 子代理回环 -->
+  <path class="flow" d="M 1445 426 C 1500 560, 1500 600, 1445 706" stroke-dasharray="4 3"/>
+  <text x="1455" y="566" fill="#cbd5e1" font-size="10.5">cron 唤醒</text>
+
+  <text x="40" y="1880" class="sub">说明：① 箭头为主干调用链（接入→控制平面→路由→Agent→循环引擎→模型/工具→支撑→基础设施→插件→外部依赖）。</text>
+  <text x="40" y="1902" class="sub">② 橙色虚线：循环引擎不知道具体 LLM，由上层 facade 注入 streamSimple/completeSimple（依赖倒置）。</text>
+  <text x="40" y="1924" class="sub">③ 颜色=重要等级：红=P0骨架(缺则不可运行)、橙=P1核心、黄=P2支撑、绿=P3可选/扩展。</text>
+  <text x="40" y="1946" class="sub">④ 插件系统(⑨)横向贯穿：Gateway 加载插件，provider/channel/memory 能力经 register 注入对应层。</text>
+  <text x="40" y="1968" class="sub">⑤ 完整功能模块清单 + 依赖表见 modules-and-architecture.md；agent-core 详解见 ccdocs/agent-core/。</text>
+
+</svg>
