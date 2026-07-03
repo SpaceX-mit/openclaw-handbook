@@ -1,0 +1,201 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1880 1960" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f172a"/><stop offset="1" stop-color="#1e293b"/></linearGradient>
+    <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/></marker>
+    <marker id="arj" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3 L0,6 Z" fill="#f59e0b"/></marker>
+    <style>
+      .layer{rx:14;ry:14;opacity:.96}
+      .lh{fill:#f8fafc;font-size:19px;font-weight:700}
+      .ep{fill:#fde68a;font-size:12px;font-weight:700}
+      .lt{fill:#cbd5e1;font-size:11.5px}
+      .box{rx:9;ry:9;stroke-width:1.5}
+      .bt{fill:#0f172a;font-size:13px;font-weight:700}
+      .bp{fill:#475569;font-size:9.5px;font-family:ui-monospace,Menlo,monospace}
+      .bs{fill:#334155;font-size:10px}
+      .fr{fill:#7c2d12;font-size:9px;font-weight:700;font-family:ui-monospace,monospace}
+      .p0{fill:#fecaca;stroke:#dc2626}.p1{fill:#fed7aa;stroke:#ea580c}.p2{fill:#fde68a;stroke:#ca8a04}.p3{fill:#bbf7d0;stroke:#16a34a}
+      .flow{stroke:#94a3b8;stroke-width:2.4;fill:none;marker-end:url(#ar)}
+      .inj{stroke:#f59e0b;stroke-width:2.2;fill:none;marker-end:url(#arj);stroke-dasharray:6 4}
+      .title{fill:#f8fafc;font-size:30px;font-weight:800}.sub{fill:#94a3b8;font-size:13.5px}
+      .lg{fill:#e2e8f0;font-size:12px}
+      .num{fill:#0ea5e9;font-size:13px;font-weight:800}
+      .numc{fill:#0ea5e9}
+    </style>
+  </defs>
+  <rect width="1880" height="1960" fill="url(#bg)"/>
+  <text x="40" y="48" class="title">OpenClaw 详细架构图（SRS 锚定版）</text>
+  <text x="40" y="74" class="sub">基于 SRS(12 Epic / ~70 FR) + 项目源码 · 每个子系统标注 [代码路径 · LOC · FR-ID] · 颜色=重要等级 · 蓝圈=请求生命周期序号</text>
+
+  <!-- Legend -->
+  <g transform="translate(1330,26)">
+    <rect x="0" y="0" width="20" height="13" class="p0" rx="3"/><text x="26" y="11" class="lg">P0骨架</text>
+    <rect x="92" y="0" width="20" height="13" class="p1" rx="3"/><text x="118" y="11" class="lg">P1核心</text>
+    <rect x="184" y="0" width="20" height="13" class="p2" rx="3"/><text x="210" y="11" class="lg">P2支撑</text>
+    <rect x="272" y="0" width="20" height="13" class="p3" rx="3"/><text x="298" y="11" class="lg">P3可选</text>
+    <line x1="0" y1="30" x2="34" y2="30" class="flow"/><text x="40" y="34" class="lg">调用/数据流</text>
+    <line x1="150" y1="30" x2="184" y2="30" class="inj"/><text x="190" y="34" class="lg">依赖注入(DIP)</text>
+    <circle cx="300" cy="30" r="8" fill="none" stroke="#0ea5e9" stroke-width="2"/><text x="296" y="34" class="num">n</text><text x="314" y="34" class="lg">生命周期序</text>
+  </g>
+
+  <!-- ① 接入层 -->
+  <rect x="40" y="96" width="1800" height="150" class="layer" fill="#1d4ed8"/>
+  <text x="58" y="123" class="lh">① 接入层 / Clients</text>
+  <text x="230" y="123" class="ep">EP-CHANNEL · EP-CLIENT (FR-CHAN-01, FR-CLIENT-01..06)</text>
+  <text x="58" y="141" class="lt">多形态接入面 · transport-only</text>
+  <rect x="58" y="152" width="270" height="84" class="box p1"/><text x="70" y="174" class="bt">CLI</text><text x="70" y="190" class="bp">src/cli + src/commands</text><text x="70" y="205" class="bs">onboard/doctor/configure/mcp</text><text x="70" y="219" class="bs">Commander · 147K LOC</text><text x="70" y="232" class="fr">FR-OPS-01/02</text>
+  <rect x="342" y="152" width="270" height="84" class="box p1"/><text x="354" y="174" class="bt">23+ 消息渠道</text><text x="354" y="190" class="bp">extensions/&lt;channel&gt; ×25</text><text x="354" y="205" class="bs">TG/Discord/Slack/微信/iMsg</text><text x="354" y="219" class="bs">可移植动作词表 ×60</text><text x="354" y="232" class="fr">FR-CHAN-01/02/03</text>
+  <rect x="626" y="152" width="270" height="84" class="box p3"/><text x="638" y="174" class="bt">Web Control UI</text><text x="638" y="190" class="bp">ui/ (Lit 3 + Vite)</text><text x="638" y="205" class="bs">会话/日志/渠道配置</text><text x="638" y="219" class="bs">Canvas 白名单沙箱 iframe</text><text x="638" y="232" class="fr">FR-CLIENT-01/06</text>
+  <rect x="910" y="152" width="270" height="84" class="box p3"/><text x="922" y="174" class="bt">伴侣 App</text><text x="922" y="190" class="bp">apps/ Swift/Kotlin/WinUI</text><text x="922" y="205" class="bs">macOS/iOS/Android/Win</text><text x="922" y="219" class="bs">node 客户端/可托管GW</text><text x="922" y="232" class="fr">FR-CLIENT-03</text>
+  <rect x="1194" y="152" width="300" height="84" class="box p3"/><text x="1206" y="174" class="bt">SDK</text><text x="1206" y="190" class="bp">packages/sdk + gateway-client</text><text x="1206" y="205" class="bs">agents/sessions/runs/tasks</text><text x="1206" y="219" class="bs">编程式客户端</text><text x="1206" y="232" class="fr">FR-CLIENT-02</text>
+  <rect x="1508" y="152" width="316" height="84" class="box p3"/><text x="1520" y="174" class="bt">Node Host / 守护进程</text><text x="1520" y="190" class="bp">src/node-host · src/daemon</text><text x="1520" y="205" class="bs">跨设备 system.run（exec 审批）</text><text x="1520" y="219" class="bs">launchd/systemd/schtasks</text><text x="1520" y="232" class="fr">FR-CLIENT-04 · FR-OPS-05</text>
+
+  <!-- ② 控制平面 -->
+  <rect x="40" y="264" width="1800" height="152" class="layer" fill="#0e7490"/>
+  <text x="58" y="291" class="lh">② 控制平面 / Gateway</text>
+  <text x="300" y="291" class="ep">EP-SEC · EP-OPS (FR-SEC-01..10, FR-CLIENT-05)  [P0]</text>
+  <text x="58" y="309" class="lt">"gateway is just the control plane" · src/gateway 114K</text>
+  <rect x="58" y="320" width="288" height="86" class="box p0"/><text x="70" y="342" class="bt">WS Server + 协议 v4</text><text x="70" y="358" class="bp">gateway/server + gateway-protocol</text><text x="70" y="373" class="bs">握手/连接 · TypeBox 惰性编译</text><text x="70" y="387" class="bs">版本协商</text><text x="70" y="400" class="fr">FR-CLIENT-05 · NFR-PERF-03</text>
+  <rect x="360" y="320" width="288" height="86" class="box p0"/><text x="372" y="342" class="bt">认证 / Scope / 限流</text><text x="372" y="358" class="bp">gateway/auth*.ts · method-scopes</text><text x="372" y="373" class="bs">device-token/password/bootstrap</text><text x="372" y="387" class="bs">最小权限·scope 绑定身份</text><text x="372" y="400" class="fr">FR-SEC-01/02/03/04/10</text>
+  <rect x="662" y="320" width="288" height="86" class="box p0"/><text x="674" y="342" class="bt">方法注册表 + Handler</text><text x="674" y="358" class="bp">methods/registry · server-methods</text><text x="674" y="373" class="bs">chat/agent/channels/artifacts</text><text x="674" y="387" class="bs">O(1) byName · 审批</text><text x="674" y="400" class="fr">FR-SEC-05</text>
+  <rect x="964" y="320" width="288" height="86" class="box p1"/><text x="976" y="342" class="bt">配置热重载 / 节点注册</text><text x="976" y="358" class="bp">config-reload · node-registry</text><text x="976" y="373" class="bs">chat-abort（取消）</text><text x="976" y="387" class="bs">channel-health-monitor</text><text x="976" y="400" class="fr">FR-OPS-06 · NFR-REL-04</text>
+  <rect x="1266" y="320" width="288" height="86" class="box p2"/><text x="1278" y="342" class="bt">调度器 cron</text><text x="1278" y="358" class="bp">src/cron (SQLite, 19K)</text><text x="1278" y="373" class="bs">定时唤醒 agent·避整点</text><text x="1278" y="387" class="bs">checkpoint 快照</text><text x="1278" y="400" class="fr">FR-OPS-07 · FR-SESS-09</text>
+  <rect x="1568" y="320" width="256" height="86" class="box p2"/><text x="1580" y="342" class="bt">密钥管理</text><text x="1580" y="358" class="bp">src/secrets (14K)</text><text x="1580" y="373" class="bs">SecretRef env/file/exec</text><text x="1580" y="387" class="bs">本地凭证·脱敏</text><text x="1580" y="400" class="fr">FR-SEC-06/07 · NFR-PRIV</text>
+
+  <!-- ③ 路由层 -->
+  <rect x="40" y="434" width="1800" height="126" class="layer" fill="#7c3aed"/>
+  <text x="58" y="461" class="lh">③ 路由 / 入站分发</text>
+  <text x="270" y="461" class="ep">EP-CHANNEL (FR-CHAN-04/05/06)  [P1/P2]</text>
+  <text x="58" y="479" class="lt">入站→归一化→门控→去抖→路由→分发→回复投递 · src/auto-reply 71K</text>
+  <rect x="58" y="490" width="332" height="60" class="box p1"/><text x="70" y="512" class="bt">入站归一化 + 分类</text><text x="70" y="528" class="bp">channels/inbound-event</text><text x="70" y="542" class="fr">FR-CHAN-04 · 信封防注入 FR-CHAN-06</text>
+  <rect x="404" y="490" width="332" height="60" class="box p1"/><text x="416" y="512" class="bt">门控 + 去抖</text><text x="416" y="528" class="bp">mention-gating · inbound-debounce</text><text x="416" y="542" class="fr">FR-CHAN-05</text>
+  <rect x="750" y="490" width="332" height="60" class="box p2"/><text x="762" y="512" class="bt">路由 routing</text><text x="762" y="528" class="bp">routing/resolve-route</text><text x="762" y="542" class="fr">→ agentId + sessionKey</text>
+  <rect x="1096" y="490" width="360" height="60" class="box p1"/><text x="1108" y="512" class="bt">分发 dispatch</text><text x="1108" y="528" class="bp">auto-reply/dispatch</text><text x="1108" y="542" class="fr">dispatchReplyFromConfig</text>
+  <rect x="1470" y="490" width="354" height="60" class="box p1"/><text x="1482" y="512" class="bt">回复投递</text><text x="1482" y="528" class="bp">channels/turn/kernel</text><text x="1482" y="542" class="fr">dispatcher.deliver · NFR-USE-03</text>
+
+  <!-- ④ Agent 运行时 -->
+  <rect x="40" y="578" width="1800" height="160" class="layer" fill="#b91c1c"/>
+  <text x="58" y="605" class="lh">④ Agent 运行时</text>
+  <text x="220" y="605" class="ep">EP-MULTI (FR-MULTI-01..07)  [P0] · 最大模块 src/agents 278K</text>
+  <text x="58" y="623" class="lt">真正干活的层 · 重试/压缩/失败转移编排</text>
+  <rect x="58" y="634" width="330" height="96" class="box p0"/><text x="70" y="656" class="bt">Embedded Runner</text><text x="70" y="671" class="bp">embedded-agent-runner/run.ts</text><text x="70" y="685" class="bs">跨attempt: 重试/压缩/auth轮换</text><text x="70" y="699" class="bs">idle断路器 (4191行)</text><text x="70" y="713" class="bs">run/attempt.ts 单次 (5804行)</text><text x="70" y="726" class="fr">NFR-REL-01/02/03</text>
+  <rect x="402" y="634" width="300" height="96" class="box p0"/><text x="414" y="656" class="bt">AgentSession</text><text x="414" y="671" class="bp">sessions/agent-session.ts</text><text x="414" y="685" class="bs">持久化/写锁/压缩</text><text x="414" y="699" class="bs">before/afterToolCall 钩子</text><text x="414" y="713" class="bs">持有 CoreAgent</text><text x="414" y="726" class="fr">FR-SESS-08 · FR-LOOP-04</text>
+  <rect x="716" y="634" width="280" height="96" class="box p1"/><text x="728" y="656" class="bt">可插拔 Harness</text><text x="728" y="671" class="bp">agents/harness/selection</text><text x="728" y="685" class="bs">builtin-openclaw | codex</text><text x="728" y="699" class="bs">执行后端可替换</text><text x="728" y="726" class="fr">FR-MULTI-06 · NFR-EXT-02</text>
+  <rect x="1010" y="634" width="280" height="96" class="box p1"/><text x="1022" y="656" class="bt">系统提示装配</text><text x="1022" y="671" class="bp">agents/system-prompt.ts</text><text x="1022" y="685" class="bs">缓存稳定前缀+动态后缀</text><text x="1022" y="699" class="bs">技能/记忆/环境注入</text><text x="1022" y="726" class="fr">NFR-PERF-04</text>
+  <rect x="1304" y="634" width="520" height="96" class="box p2"/><text x="1316" y="656" class="bt">子代理 / 多 Agent</text><text x="1316" y="671" class="bp">subagent-spawn · acp-spawn · subagent-registry(SQLite)</text><text x="1316" y="685" class="bs">sessions_spawn (depth=1, ≤5子/8并发) · A2A sessions_send 有界</text><text x="1316" y="699" class="bs">heartbeat 唤醒·完成 announce · 无嵌套编排(定位约束)</text><text x="1316" y="726" class="fr">FR-MULTI-01/02/03/04/05/07</text>
+
+  <!-- ⑤ 循环引擎 -->
+  <rect x="40" y="756" width="1800" height="150" class="layer" fill="#be123c"/>
+  <text x="58" y="783" class="lh">⑤ 循环引擎 / @openclaw/agent-core</text>
+  <text x="420" y="783" class="ep">EP-LOOP · EP-SESSION (FR-LOOP-01..09, FR-SESS-01..09)  [P0]</text>
+  <text x="58" y="801" class="lt">provider 无关 ReAct 循环 · packages/agent-core 8.1K · 可独立复用</text>
+  <rect x="58" y="812" width="340" height="84" class="box p0"/><text x="70" y="834" class="bt">runLoop (ReAct 引擎)</text><text x="70" y="850" class="bp">agent-loop.ts:258</text><text x="70" y="864" class="bs">stream→tool→回灌→判停·串行/并行</text><text x="70" y="878" class="bs">steering/follow-up 队列</text><text x="70" y="891" class="fr">FR-LOOP-01/02/03/05/06/08</text>
+  <rect x="412" y="812" width="300" height="84" class="box p0"/><text x="424" y="834" class="bt">Agent 状态机</text><text x="424" y="850" class="bp">agent.ts:204</text><text x="424" y="864" class="bs">转写+2队列+事件</text><text x="424" y="878" class="bs">lifecycle + abort</text><text x="424" y="891" class="fr">FR-LOOP-05/06</text>
+  <rect x="726" y="812" width="330" height="84" class="box p0"/><text x="738" y="834" class="bt">CoreAgentHarness</text><text x="738" y="850" class="bp">harness/agent-harness.ts:217</text><text x="738" y="864" class="bs">会话树+压缩+分支+17钩子</text><text x="738" y="878" class="bs">phase 状态机</text><text x="738" y="891" class="fr">FR-SESS-07 · FR-LOOP-04</text>
+  <rect x="1070" y="812" width="360" height="84" class="box p0"/><text x="1082" y="834" class="bt">Session 会话树</text><text x="1082" y="850" class="bp">harness/session/session.ts:106</text><text x="1082" y="864" class="bs">append-only + parentId 树 + leaf</text><text x="1082" y="878" class="bs">压缩重放·分支导航</text><text x="1082" y="891" class="fr">FR-SESS-01/02/07/08</text>
+  <rect x="1444" y="812" width="380" height="84" class="box p0"/><text x="1456" y="834" class="bt">压缩 / 分支摘要</text><text x="1456" y="850" class="bp">harness/compaction/compaction.ts</text><text x="1456" y="864" class="bs">切点/token/结构化摘要</text><text x="1456" y="878" class="bs">reserve=16384 keep=20000</text><text x="1456" y="891" class="fr">FR-SESS-03/04/05/06</text>
+
+  <!-- ⑥A 模型层 -->
+  <rect x="40" y="924" width="890" height="188" class="layer" fill="#9a3412"/>
+  <text x="58" y="951" class="lh">⑥A 模型层 / LLM</text>
+  <text x="270" y="951" class="ep">EP-MODEL (FR-MODEL-01..06)  [P0]</text>
+  <text x="58" y="969" class="lt">按 model.api 分发 · 注入循环引擎</text>
+  <rect x="58" y="980" width="266" height="56" class="box p0"/><text x="70" y="1002" class="bt">llm-runtime</text><text x="70" y="1019" class="bp">stream.ts api-id 分发</text><text x="70" y="1031" class="fr">FR-MODEL-01</text>
+  <rect x="338" y="980" width="266" height="56" class="box p0"/><text x="350" y="1002" class="bt">llm-core</text><text x="350" y="1019" class="bp">Message/Model/EventStream</text><text x="350" y="1031" class="fr">StreamFn 契约 FR-LOOP-09</text>
+  <rect x="618" y="980" width="294" height="56" class="box p2"/><text x="630" y="1002" class="bt">tool-call-repair</text><text x="630" y="1019" class="bp">stream-normalizer.ts</text><text x="630" y="1031" class="fr">FR-MODEL-04</text>
+  <rect x="58" y="1046" width="410" height="56" class="box p0"/><text x="70" y="1068" class="bt">8 内置 API 家族 adapter</text><text x="70" y="1085" class="bp">src/llm/providers: anthropic/openai-*/google-*</text><text x="70" y="1097" class="fr">FR-MODEL-01/03</text>
+  <rect x="482" y="1046" width="430" height="56" class="box p3"/><text x="494" y="1068" class="bt">70 provider 扩展</text><text x="494" y="1085" class="bp">extensions/&lt;provider&gt; · auth+catalog+compat</text><text x="494" y="1097" class="fr">FR-MODEL-02/05 · NFR-EXT-03</text>
+
+  <!-- ⑥B 工具层 -->
+  <rect x="950" y="924" width="890" height="188" class="layer" fill="#854d0e"/>
+  <text x="968" y="951" class="lh">⑥B 工具层 / Tool·MCP·Skill</text>
+  <text x="1290" y="951" class="ep">EP-TOOL (FR-TOOL-01..07)  [P0/P2]</text>
+  <text x="968" y="969" class="lt">~70 内置工具 + MCP双向 + 技能 · 策略管线</text>
+  <rect x="968" y="980" width="276" height="56" class="box p0"/><text x="980" y="1002" class="bt">~70 内置工具</text><text x="980" y="1019" class="bp">agents/tools · read/exec/edit</text><text x="980" y="1031" class="fr">FR-TOOL-01/02</text>
+  <rect x="1258" y="980" width="266" height="56" class="box p2"/><text x="1270" y="1002" class="bt">MCP 双向</text><text x="1270" y="1019" class="bp">src/mcp + bundle-mcp</text><text x="1270" y="1031" class="fr">FR-TOOL-03/04</text>
+  <rect x="1538" y="980" width="286" height="56" class="box p2"/><text x="1550" y="1002" class="bt">技能 Skill</text><text x="1550" y="1019" class="bp">src/skills · SKILL.md 按需读</text><text x="1550" y="1031" class="fr">FR-TOOL-05</text>
+  <rect x="968" y="1046" width="410" height="56" class="box p1"/><text x="980" y="1068" class="bt">工具策略管线（严格相减）</text><text x="980" y="1085" class="bp">tool-dispatch · profile/allow/deny/sandbox/subagent</text><text x="980" y="1097" class="fr">FR-TOOL-06</text>
+  <rect x="1392" y="1046" width="432" height="56" class="box p2"/><text x="1404" y="1068" class="bt">延迟工具加载 (Tool Search)</text><text x="1404" y="1085" class="bp">resolveDeferredTool 运行时水合</text><text x="1404" y="1097" class="fr">FR-TOOL-07</text>
+
+  <!-- ⑦ 支撑层 -->
+  <rect x="40" y="1130" width="1800" height="160" class="layer" fill="#15803d"/>
+  <text x="58" y="1157" class="lh">⑦ 支撑层</text>
+  <text x="200" y="1157" class="ep">EP-MEMORY · 上下文引擎 · 模型目录 · ACP (FR-MEM-01..08)  [P1/P2]</text>
+  <text x="58" y="1175" class="lt">记忆(单槽) · 上下文引擎 · 模型目录 · ACP</text>
+  <rect x="58" y="1186" width="360" height="94" class="box p1"/><text x="70" y="1208" class="bt">记忆系统（单插件槽）</text><text x="70" y="1223" class="bp">memory-host-sdk 8.5K + extensions 56.9K</text><text x="70" y="1237" class="bs">三级记忆·FTS5+sqlite-vec 混合</text><text x="70" y="1251" class="bs">promotion·预算·dreaming·优雅降级</text><text x="70" y="1265" class="bs">默认 memory-core</text><text x="70" y="1278" class="fr">FR-MEM-01..08</text>
+  <rect x="432" y="1186" width="300" height="94" class="box p2"/><text x="444" y="1208" class="bt">上下文引擎</text><text x="444" y="1223" class="bp">src/context-engine</text><text x="444" y="1237" class="bs">可插拔+注册表</text><text x="444" y="1251" class="bs">quarantine 容错+legacy 兜底</text><text x="444" y="1278" class="fr">NFR-EXT-02 · NFR-REL-06</text>
+  <rect x="746" y="1186" width="300" height="94" class="box p2"/><text x="758" y="1208" class="bt">模型目录</text><text x="758" y="1223" class="bp">model-catalog + core</text><text x="758" y="1237" class="bs">合并权威</text><text x="758" y="1251" class="bs">config&gt;manifest&gt;cache&gt;index</text><text x="758" y="1278" class="fr">FR-MODEL-05</text>
+  <rect x="1060" y="1186" width="360" height="94" class="box p2"/><text x="1072" y="1208" class="bt">ACP（外部 agent 后端）</text><text x="1072" y="1223" class="bp">src/acp + acp-core (13K)</text><text x="1072" y="1237" class="bs">AcpSessionManager·每会话串行</text><text x="1072" y="1251" class="bs">驱动 Codex (stdio/ws)</text><text x="1072" y="1278" class="fr">FR-MULTI-06 · NFR-REL-07</text>
+  <rect x="1434" y="1186" width="390" height="94" class="box p1"/><text x="1446" y="1208" class="bt">active-memory + wiki（伴侣）</text><text x="1446" y="1223" class="bp">extensions/active-memory · memory-wiki</text><text x="1446" y="1237" class="bs">回复前阻塞召回注入</text><text x="1446" y="1251" class="bs">OKF 知识层 wiki_search/get</text><text x="1446" y="1278" class="fr">FR-MEM (伴侣)</text>
+
+  <!-- ⑧ 基础设施 -->
+  <rect x="40" y="1308" width="1800" height="130" class="layer" fill="#0f766e"/>
+  <text x="58" y="1335" class="lh">⑧ 基础设施</text>
+  <text x="210" y="1335" class="ep">EP-OPS (FR-OPS-03/04)  [P1/P3]</text>
+  <text x="58" y="1353" class="lt">SQLite 持久化 · 事件 · 网络策略 · src/infra 95K</text>
+  <rect x="58" y="1364" width="360" height="62" class="box p1"/><text x="70" y="1386" class="bt">SQLite 状态存储</text><text x="70" y="1402" class="bp">infra · Kysely + node:sqlite</text><text x="70" y="1416" class="fr">共享库+每Agent库 · FR-OPS-04 · DR-02/03</text>
+  <rect x="432" y="1364" width="360" height="62" class="box p1"/><text x="444" y="1386" class="bt">事件/唤醒/迁移</text><text x="444" y="1402" class="bp">system-events·heartbeat-wake·migrations</text><text x="444" y="1416" class="fr">FR-OPS-03 · NFR-COMPAT-01</text>
+  <rect x="806" y="1364" width="330" height="62" class="box p3"/><text x="818" y="1386" class="bt">网络策略 SSRF</text><text x="818" y="1402" class="bp">packages/net-policy · infra/net/ssrf</text><text x="818" y="1416" class="fr">FR-SEC-08</text>
+  <rect x="1150" y="1364" width="330" height="62" class="box p3"/><text x="1162" y="1386" class="bt">终端渲染</text><text x="1162" y="1402" class="bp">terminal-core + pi-tui(仅UI)</text><text x="1162" y="1416" class="fr">NFR-USE-01</text>
+  <rect x="1494" y="1364" width="330" height="62" class="box p3"/><text x="1506" y="1386" class="bt">媒体/语音</text><text x="1506" y="1402" class="bp">media-core · speech-core</text><text x="1506" y="1416" class="fr">契约</text>
+
+  <!-- ⑨ 插件系统 -->
+  <rect x="40" y="1456" width="1800" height="130" class="layer" fill="#4338ca"/>
+  <text x="58" y="1483" class="lh">⑨ 插件系统 / Plugins</text>
+  <text x="290" y="1483" class="ep">EP-PLUGIN (FR-PLUG-01..07)  [P0加载器/P3扩展]</text>
+  <text x="58" y="1501" class="lt">manifest-first · 零运行时导入激活规划 · src/plugins 93K + extensions 180K</text>
+  <rect x="58" y="1512" width="380" height="62" class="box p0"/><text x="70" y="1534" class="bt">插件加载器</text><text x="70" y="1550" class="bp">loader·manifest·activation-planner</text><text x="70" y="1564" class="fr">FR-PLUG-01/02 · NFR-PERF-02</text>
+  <rect x="452" y="1512" width="300" height="62" class="box p0"/><text x="464" y="1534" class="bt">注册表 API</text><text x="464" y="1550" class="bp">registry · ~60 register 方法</text><text x="464" y="1564" class="fr">FR-PLUG-03/04</text>
+  <rect x="766" y="1512" width="280" height="62" class="box p0"/><text x="778" y="1534" class="bt">单槽 slots + 安装安全</text><text x="778" y="1550" class="bp">slots · install-policy</text><text x="778" y="1564" class="fr">FR-PLUG-05/07</text>
+  <rect x="1060" y="1512" width="764" height="62" class="box p3"/><text x="1072" y="1534" class="bt">extensions × 139</text><text x="1072" y="1550" class="bp">70 provider + 25 channel + 2 memory + 42 其他 (browser/codex/acpx...)</text><text x="1072" y="1564" class="fr">FR-PLUG-06 (bundle)</text>
+
+  <!-- ⑩ 外部依赖 -->
+  <rect x="40" y="1604" width="1800" height="96" class="layer" fill="#334155"/>
+  <text x="58" y="1631" class="lh">⑩ 外部依赖（向下依赖，非本项目拥有）</text>
+  <rect x="58" y="1642" width="420" height="46" class="box p3"/><text x="70" y="1670" class="bt">LLM Provider (算力): Anthropic/OpenAI/Google ×70</text>
+  <rect x="494" y="1642" width="380" height="46" class="box p3"/><text x="506" y="1670" class="bt">Node ≥22.19 + 原生扩展(sqlite-vec/llama)</text>
+  <rect x="890" y="1642" width="320" height="46" class="box p3"/><text x="902" y="1670" class="bt">操作系统 (FS/进程/网络)</text>
+  <rect x="1226" y="1642" width="320" height="46" class="box p3"/><text x="1238" y="1670" class="bt">Container/K8S (可选部署)</text>
+  <rect x="1562" y="1642" width="262" height="46" class="box p3"/><text x="1574" y="1670" class="bt">IM 平台 API</text>
+
+  <!-- 主干箭头 -->
+  <path class="flow" d="M 940 246 L 940 264"/>
+  <path class="flow" d="M 940 416 L 940 434"/>
+  <path class="flow" d="M 940 560 L 940 578"/>
+  <path class="flow" d="M 500 738 L 500 756"/>
+  <path class="flow" d="M 400 906 L 400 924"/>
+  <path class="flow" d="M 1200 906 L 1200 924"/>
+  <path class="inj" d="M 324 1008 L 398 852"/>
+  <text x="180" y="1120" fill="#fbbf24" font-size="11" font-weight="700">streamSimple/completeSimple 注入(DIP) FR-LOOP-09</text>
+  <path class="flow" d="M 940 1112 L 940 1130"/>
+  <path class="flow" d="M 940 1290 L 940 1308"/>
+  <path class="flow" d="M 940 1438 L 940 1456"/>
+  <path class="flow" d="M 940 1586 L 940 1604"/>
+  <path class="flow" d="M 1420 406 C 1470 500, 1470 560, 1600 634" stroke-dasharray="4 3"/>
+  <text x="1476" y="512" fill="#cbd5e1" font-size="10">cron 唤醒 FR-OPS-07</text>
+
+  <!-- 生命周期序号 -->
+  <circle cx="200" cy="152" r="11" fill="#0f172a" stroke="#0ea5e9" stroke-width="2"/><text x="194" y="157" class="num">1</text>
+  <circle cx="450" cy="320" r="11" fill="#0f172a" stroke="#0ea5e9" stroke-width="2"/><text x="444" y="325" class="num">2</text>
+  <circle cx="70" cy="490" r="11" fill="#0f172a" stroke="#0ea5e9" stroke-width="2"/><text x="64" y="495" class="num">3</text>
+  <circle cx="762" cy="490" r="11" fill="#0f172a" stroke="#0ea5e9" stroke-width="2"/><text x="756" y="495" class="num">4</text>
+  <circle cx="70" cy="634" r="11" fill="#0f172a" stroke="#0ea5e9" stroke-width="2"/><text x="64" y="639" class="num">5</text>
+  <circle cx="70" cy="812" r="11" fill="#0f172a" stroke="#0ea5e9" stroke-width="2"/><text x="64" y="817" class="num">6</text>
+  <circle cx="70" cy="980" r="11" fill="#0f172a" stroke="#0ea5e9" stroke-width="2"/><text x="64" y="985" class="num">7</text>
+  <circle cx="980" cy="980" r="11" fill="#0f172a" stroke="#0ea5e9" stroke-width="2"/><text x="974" y="985" class="num">8</text>
+  <circle cx="70" cy="1186" r="11" fill="#0f172a" stroke="#0ea5e9" stroke-width="2"/><text x="64" y="1191" class="num">9</text>
+  <circle cx="1482" cy="490" r="11" fill="#0f172a" stroke="#0ea5e9" stroke-width="2"/><text x="1474" y="495" class="num">10</text>
+
+  <!-- 生命周期说明 -->
+  <rect x="40" y="1718" width="1800" height="180" rx="12" fill="#111827" opacity="0.85"/>
+  <text x="58" y="1746" fill="#f8fafc" font-size="16" font-weight="700">请求生命周期（蓝圈序号）</text>
+  <text x="58" y="1770" fill="#cbd5e1" font-size="12.5">1. 渠道消息入站（接入层）→  2. Gateway 认证/scope/限流（控制平面）→  3. 入站归一化+门控+去抖（路由）→  4. resolve-route 解析 agentId+sessionKey</text>
+  <text x="58" y="1792" fill="#cbd5e1" font-size="12.5">→  5. Embedded Runner 选 harness+AgentSession（Agent 运行时）→  6. runLoop 驱动 ReAct（循环引擎）→  7. 按 model.api 分发到 provider（模型层）</text>
+  <text x="58" y="1814" fill="#cbd5e1" font-size="12.5">→  8. 工具调用经策略管线执行（工具层）→  9. 记忆检索/上下文组装（支撑层）→  10. 回复流式投递回渠道（回复投递）</text>
+  <text x="58" y="1844" fill="#94a3b8" font-size="12">橙色虚线：循环引擎不知具体 LLM，由上层 facade 注入 streamSimple/completeSimple（依赖倒置，FR-LOOP-09）。</text>
+  <text x="58" y="1864" fill="#94a3b8" font-size="12">插件系统(⑨) 横向贯穿：Gateway 加载插件，provider/channel/memory/tool 能力经 register 注入对应层（FR-PLUG-03）。</text>
+  <text x="58" y="1884" fill="#94a3b8" font-size="12">每个子系统标注 [代码路径 · LOC · FR-ID]，可回溯到 ccdocs/SRS.md 的功能需求与源码 file:line。颜色=重要等级(P0红/P1橙/P2黄/P3绿)。</text>
+
+  <text x="40" y="1936" class="sub">配套：功能需求见 ccdocs/SRS.md（12 Epic/~70 FR/~40 NFR）；模块依赖见 modules-and-architecture.md；各子系统评估见 *-assessment.md。</text>
+
+
+</svg>
